@@ -1,63 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
-    <!-- Task Title -->
-    <EditText
-        android:id="@+id/editTextTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:hint="@string/hint_task_title"
-        android:textColor="@color/black"
-        android:textColorHint="#505050"
-        android:background="@color/white"
-        android:inputType="text"
-        android:padding="12dp"
-        android:autofillHints="username"
-        android:maxWidth="300dp" />
+    <!-- Scrollable content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:padding="20dp">
 
-    <!-- Task Description -->
-    <EditText
-        android:id="@+id/editTextDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:hint="@string/hint_task_description"
-        android:textColor="@color/black"
-        android:textColorHint="#505050"
-        android:background="@color/white"
-        android:inputType="text"
-        android:padding="12dp"
-        android:autofillHints="address"
-        android:maxWidth="300dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="120dp">
 
-    <!-- Task Due Date -->
-    <EditText
-        android:id="@+id/editTextDueDate"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:hint="@string/hint_task_due_date"
-        android:textColor="@color/black"
-        android:textColorHint="#505050"
-        android:background="@color/white"
-        android:inputType="date"
-        android:focusable="false"
-        android:padding="12dp"
-        android:autofillHints="date"
-        android:maxWidth="300dp" />
+            <!-- Title TextView -->
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_task"
+                android:textSize="24sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="sans-serif-medium"/>
 
+            <!-- Task Title -->
+            <EditText
+                android:id="@+id/editTextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:hint="@string/hint_task_title"
+                android:textColor="@color/black"
+                android:textColorHint="#505050"
+                android:background="@color/white"
+                android:inputType="text"
+                android:padding="12dp"
+                android:autofillHints="username"
+                android:maxWidth="300dp" />
 
-    <!-- Save Button -->
-    <Button
-        android:id="@+id/buttonSave"
+            <!-- Task Description -->
+            <EditText
+                android:id="@+id/editTextDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:hint="@string/hint_task_description"
+                android:textColor="@color/black"
+                android:textColorHint="#505050"
+                android:background="@color/white"
+                android:inputType="text"
+                android:padding="12dp"
+                android:autofillHints="address"
+                android:maxWidth="300dp" />
+
+            <!-- Task Due Date -->
+            <EditText
+                android:id="@+id/editTextDueDate"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:hint="@string/hint_task_due_date"
+                android:textColor="@color/black"
+                android:textColorHint="#505050"
+                android:background="@color/white"
+                android:inputType="date"
+                android:focusable="false"
+                android:padding="12dp"
+                android:autofillHints="date"
+                android:maxWidth="300dp" />
+
+            <!-- Save Button -->
+            <Button
+                android:id="@+id/buttonSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_task"
+                android:textColor="@android:color/white"
+                android:background="@drawable/rounded_button"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:elevation="6dp"
+                android:layout_marginTop="24dp"
+                android:maxWidth="300dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Floating Back Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_task"
-        android:textColor="@color/white"
-        android:background="@color/black"
-        android:padding="12dp"
-        android:maxWidth="300dp"/>
-</LinearLayout>
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="55dp"
+        android:contentDescription="@string/back"
+        android:src="@drawable/ic_arrow_back"
+        app:backgroundTint="@color/purple"
+        app:tint="@android:color/white"
+        android:elevation="8dp" />
+
+</FrameLayout>

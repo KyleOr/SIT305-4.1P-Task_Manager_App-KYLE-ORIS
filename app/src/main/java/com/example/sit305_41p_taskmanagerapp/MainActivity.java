@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,35 +25,39 @@ public class MainActivity extends AppCompatActivity {
     private TaskAdapter taskAdapter;
     private List<Task> taskList;
 
+    private enum SortMode {
+        DATE, TITLE_ASC, TITLE_DESC
+    }
+
+    private SortMode currentSortMode = SortMode.DATE;
+    private Button buttonSortByMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Set up the view insets to avoid overlap with system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Initialize RecyclerView
         recyclerViewTasks = findViewById(R.id.recyclerViewTasks);
         recyclerViewTasks.setLayoutManager(new LinearLayoutManager(this));
 
-        // Floating Action Button to add new task
         FloatingActionButton fab = findViewById(R.id.fabAddTask);
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
             startActivity(intent);
         });
 
-        // Sort Button click logic
-        Button buttonSortByDate = findViewById(R.id.buttonSortByDate);
-        buttonSortByDate.setOnClickListener(v -> {
-            Toast.makeText(MainActivity.this, "Sorting by date...", Toast.LENGTH_SHORT).show();
-            sortTasksByDate(); // Call the sort method
+        // Sort button setup
+        buttonSortByMode = findViewById(R.id.buttonSortByDate);
+        buttonSortByMode.setOnClickListener(v -> {
+            cycleSortMode(); // Cycle sort mode
+            sortTasks();     // Apply sort
         });
 
         loadTasks();
@@ -61,35 +66,77 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadTasks(); // Reload tasks when returning to this screen
+        loadTasks(); // Refresh list
     }
 
     private void loadTasks() {
-        // Fetch all tasks from the database
         taskList = TaskDatabase.getInstance(this)
                 .taskDao()
                 .getAllTasks();
 
-        // Initialize adapter if not already done
         if (taskAdapter == null) {
             taskAdapter = new TaskAdapter(taskList);
             recyclerViewTasks.setAdapter(taskAdapter);
         } else {
             taskAdapter.setTasks(taskList);
         }
+
+        sortTasks(); // Apply current sort mode
     }
 
-    private void sortTasksByDate() {
+    private void cycleSortMode() {
+        switch (currentSortMode) {
+            case DATE:
+                currentSortMode = SortMode.TITLE_ASC;
+                break;
+            case TITLE_ASC:
+                currentSortMode = SortMode.TITLE_DESC;
+                break;
+            case TITLE_DESC:
+                currentSortMode = SortMode.DATE;
+                break;
+        }
+
+        updateSortButtonText(); // Update button text when sort mode changes
+    }
+
+    private void updateSortButtonText() {
+        String nextModeText;
+        switch (currentSortMode) {
+            case DATE:
+                nextModeText = "Sort: Due Date";
+                break;
+            case TITLE_ASC:
+                nextModeText = "Sort: Title A–Z";
+                break;
+            case TITLE_DESC:
+                nextModeText = "Sort: Title Z–A";
+                break;
+            default:
+                nextModeText = "Sort";
+        }
+        buttonSortByMode.setText(nextModeText);
+    }
+
+    private void sortTasks() {
         if (taskList == null || taskList.isEmpty()) {
-            Toast.makeText(this, "No tasks available to sort.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No tasks to sort.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        taskList.sort(Comparator.comparing(task -> task.dueDate));
+        switch (currentSortMode) {
+            case DATE:
+                taskList.sort(Comparator.comparing(task -> task.dueDate));
+                break;
+            case TITLE_ASC:
+                taskList.sort(Comparator.comparing(task -> task.title.toLowerCase(Locale.getDefault())));
+                break;
+            case TITLE_DESC:
+                taskList.sort((t1, t2) -> t2.title.toLowerCase(Locale.getDefault())
+                        .compareTo(t1.title.toLowerCase(Locale.getDefault())));
+                break;
+        }
+
         taskAdapter.setTasks(taskList);
-
-        // Debugging
-        Toast.makeText(this, "Sorted first date: " + taskList.get(0).dueDate, Toast.LENGTH_LONG).show();
     }
-
 }
