@@ -4,8 +4,7 @@
     android:padding="12dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EEEEEE"
-    android:marginBottom="8dp">
+    android:background="#EEEEEE">
 
     <TextView
         android:id="@+id/textTitle"

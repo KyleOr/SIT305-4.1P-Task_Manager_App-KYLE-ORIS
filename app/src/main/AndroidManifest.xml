@@ -16,7 +16,7 @@
             android:name=".TaskDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".AddEditTaskActivity"
+            android:name=".AddTaskActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">SIT305-4.1P-Task Manager App</string>
+    <string name="app_name">Task Manager App</string>
+    <string name="hint_task_title">Task Title</string>
+    <string name="hint_task_description">Task Description</string>
+    <string name="hint_task_due_date">Enter due date (e.g., 2025–04–08)</string>
+    <string name="task_detail_screen">Task Detail Screen</string>
+    <string name="add_task">Add Task</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="save_task">Save Task</string>
+    <string name="hint_due_date">Due Date</string>
+    <string name="task_updated">Task updated!</string>
+    <string name="fill_all_fields">Please fill in all fields</string>
+    <string name="task_deleted">Task deleted!</string>
+    <string name="sort_by_date">Sort by Date</string>
+
 </resources>

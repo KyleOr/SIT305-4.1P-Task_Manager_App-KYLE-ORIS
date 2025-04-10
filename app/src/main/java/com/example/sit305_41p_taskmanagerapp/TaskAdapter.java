@@ -36,6 +36,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Task task = taskList.get(position);
         holder.textTitle.setText(task.title);
         holder.textDueDate.setText(task.dueDate);
+
+        holder.itemView.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(v.getContext(), TaskDetailActivity.class);
+            intent.putExtra("task_id", task.id);
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

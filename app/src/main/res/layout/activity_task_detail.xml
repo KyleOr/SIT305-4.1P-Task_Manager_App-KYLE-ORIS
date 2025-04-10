@@ -6,8 +6,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Title Field -->
+    <EditText
+        android:id="@+id/editTextDetailTitle"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Task Detail Screen" />
+        android:minHeight="48dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/textColorPrimary"
+        android:paddingBottom="8dp"
+        android:enabled="false"
+        android:inputType="textPersonName"
+        android:hint="@string/hint_task_title"
+        android:autofillHints="username" />
+
+    <!-- Description Field -->
+    <EditText
+        android:id="@+id/editTextDetailDescription"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:textColor="@color/textColorPrimary"
+        android:paddingBottom="8dp"
+        android:enabled="false"
+        android:inputType="textMultiLine"
+        android:hint="@string/hint_task_description"
+        android:autofillHints="description"
+        android:minLines="3" />
+
+    <!-- Due Date Field -->
+    <EditText
+        android:id="@+id/editTextDetailDueDate"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:textColor="@color/textColorPrimary"
+        android:paddingBottom="16dp"
+        android:enabled="false"
+        android:inputType="date"
+        android:focusable="false"
+        android:hint="@string/hint_due_date"
+        android:autofillHints="date" />
+
+    <!-- Edit Task Button -->
+    <Button
+        android:id="@+id/buttonEditTask"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="@string/edit_task"
+        android:background="@color/black"
+        android:textColor="@color/white"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Delete Task Button -->
+    <Button
+        android:id="@+id/buttonDeleteTask"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="@string/delete_task"
+        android:background="@color/red"
+        android:textColor="@color/white" />
 </LinearLayout>
