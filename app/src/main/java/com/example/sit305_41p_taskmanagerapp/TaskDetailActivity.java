@@ -16,12 +16,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-
 public class TaskDetailActivity extends AppCompatActivity {
 
     private EditText editTextTitle, editTextDescription, editTextDueDate;
-    private Button buttonEditTask, buttonDeleteTask;
-    private Task currentTask;
+    private Button buttonEditTask;
+
     private boolean isEditing = false;
 
     @Override
@@ -40,15 +39,18 @@ public class TaskDetailActivity extends AppCompatActivity {
         editTextDescription = findViewById(R.id.editTextDetailDescription);
         editTextDueDate = findViewById(R.id.editTextDetailDueDate);
         buttonEditTask = findViewById(R.id.buttonEditTask);
-        buttonDeleteTask = findViewById(R.id.buttonDeleteTask);
 
+        // Get task id from intent
         int taskId = getIntent().getIntExtra("task_id", -1);
         if (taskId != -1) {
-            currentTask = TaskDatabase.getInstance(this).taskDao().getTaskById(taskId);
+            Task currentTask = TaskDatabase.getInstance(this).taskDao().getTaskById(taskId);
             if (currentTask != null) {
                 editTextTitle.setText(currentTask.title);
                 editTextDescription.setText(currentTask.description);
                 editTextDueDate.setText(currentTask.dueDate);
+
+                // Handle back button (FAB)
+                findViewById(R.id.buttonBack).setOnClickListener(v -> finish());
             }
         }
 
@@ -68,9 +70,9 @@ public class TaskDetailActivity extends AppCompatActivity {
             }
         });
 
-        buttonDeleteTask.setOnClickListener(v -> {
-            deleteTask();
-        });
+        // Use the local variable here instead of a field
+        Button buttonDeleteTask = findViewById(R.id.buttonDeleteTask);
+        buttonDeleteTask.setOnClickListener(v -> deleteTask());
     }
 
     private void enableEditing(boolean enabled) {
@@ -89,18 +91,30 @@ public class TaskDetailActivity extends AppCompatActivity {
             return;
         }
 
-        currentTask.title = updatedTitle;
-        currentTask.description = updatedDescription;
-        currentTask.dueDate = updatedDueDate;
+        int taskId = getIntent().getIntExtra("task_id", -1);
+        if (taskId != -1) {
+            Task currentTask = TaskDatabase.getInstance(this).taskDao().getTaskById(taskId);
+            if (currentTask != null) {
+                currentTask.title = updatedTitle;
+                currentTask.description = updatedDescription;
+                currentTask.dueDate = updatedDueDate;
 
-        TaskDatabase.getInstance(this).taskDao().update(currentTask);
-        Toast.makeText(this, R.string.task_updated, Toast.LENGTH_SHORT).show();
+                TaskDatabase.getInstance(this).taskDao().update(currentTask);
+                Toast.makeText(this, R.string.task_updated, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void deleteTask() {
-        TaskDatabase.getInstance(this).taskDao().delete(currentTask);
-        Toast.makeText(this, R.string.task_deleted, Toast.LENGTH_SHORT).show();
-        finish(); // Close the activity after deletion
+        int taskId = getIntent().getIntExtra("task_id", -1);
+        if (taskId != -1) {
+            Task currentTask = TaskDatabase.getInstance(this).taskDao().getTaskById(taskId);
+            if (currentTask != null) {
+                TaskDatabase.getInstance(this).taskDao().delete(currentTask);
+                Toast.makeText(this, R.string.task_deleted, Toast.LENGTH_SHORT).show();
+                finish(); // Close the activity after deletion
+            }
+        }
     }
 
     private void showDatePickerDialog() {
@@ -125,6 +139,4 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         datePickerDialog.show();
     }
-
-
 }

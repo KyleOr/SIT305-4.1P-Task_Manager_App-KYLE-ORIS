@@ -13,5 +13,8 @@
     <string name="fill_all_fields">Please fill in all fields</string>
     <string name="task_deleted">Task deleted!</string>
     <string name="sort_by_date">Sort by Date</string>
+    <string name="title">Your Tasks</string>
+    <string name="sort_due_date">Sort: Due Date</string>
+    <string name="back">Back</string>
 
 </resources>

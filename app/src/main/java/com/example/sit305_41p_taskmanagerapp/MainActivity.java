@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        updateSortButtonText();
+        updateSortButtonText(); // Update button text when sort mode changes
     }
 
     private void updateSortButtonText() {

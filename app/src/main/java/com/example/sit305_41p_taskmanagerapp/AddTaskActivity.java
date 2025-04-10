@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -21,65 +23,57 @@ public class AddTaskActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_task);
 
-        // Initialize UI components as local variables
+        // Initialize UI components
         EditText editTextTitle = findViewById(R.id.editTextTitle);
         EditText editTextDescription = findViewById(R.id.editTextDescription);
         EditText editTextDueDate = findViewById(R.id.editTextDueDate);
         Button buttonSave = findViewById(R.id.buttonSave);
+        FloatingActionButton buttonBack = findViewById(R.id.buttonBack);
 
-        // Set onClickListener for the Due Date EditText
+        // Show date picker on click
         editTextDueDate.setOnClickListener(v -> showDatePickerDialog(editTextDueDate));
 
         // Save button click listener
         buttonSave.setOnClickListener(v -> addTask(editTextTitle, editTextDescription, editTextDueDate));
+
+        // Back FAB click listener
+        buttonBack.setOnClickListener(v -> finish());
     }
 
     private void addTask(EditText editTextTitle, EditText editTextDescription, EditText editTextDueDate) {
-        // Get text from input fields
         String title = editTextTitle.getText().toString().trim();
         String description = editTextDescription.getText().toString().trim();
         String dueDate = editTextDueDate.getText().toString().trim();
 
-        // Basic validation
         if (title.isEmpty() || description.isEmpty() || dueDate.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Create and insert the Task
         Task task = new Task();
         task.title = title;
         task.description = description;
         task.dueDate = dueDate;
 
-        // Save to Room database
         TaskDatabase.getInstance(this).taskDao().insert(task);
 
         Toast.makeText(this, "Task saved!", Toast.LENGTH_SHORT).show();
-
-        // Close activity
         finish();
     }
 
     private void showDatePickerDialog(EditText editTextDueDate) {
-        // Get current date to pre-fill the DatePicker
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        // Create and show the DatePickerDialog
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 AddTaskActivity.this,
                 (view, selectedYear, selectedMonth, selectedDayOfMonth) -> {
-                    // Format selected date to yyyy-MM-dd
                     Calendar selectedDate = Calendar.getInstance();
                     selectedDate.set(selectedYear, selectedMonth, selectedDayOfMonth);
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                    String formattedDate = sdf.format(selectedDate.getTime());
-
-                    // Set formatted date to EditText
-                    editTextDueDate.setText(formattedDate);
+                    editTextDueDate.setText(sdf.format(selectedDate.getTime()));
                 },
                 year, month, dayOfMonth
         );
