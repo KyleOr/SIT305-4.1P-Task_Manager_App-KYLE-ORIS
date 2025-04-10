@@ -18,7 +18,7 @@ public abstract class TaskDatabase extends RoomDatabase {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                             TaskDatabase.class, "task_database")
                     .fallbackToDestructiveMigration()
-                    .allowMainThreadQueries() // TEMP: Okay for learning, but use Async in real apps
+                    .allowMainThreadQueries()
                     .build();
         }
         return instance;
