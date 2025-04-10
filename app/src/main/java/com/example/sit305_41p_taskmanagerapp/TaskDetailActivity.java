@@ -12,7 +12,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
+
 
 public class TaskDetailActivity extends AppCompatActivity {
 
@@ -101,18 +104,20 @@ public class TaskDetailActivity extends AppCompatActivity {
     }
 
     private void showDatePickerDialog() {
-        // Get current date to pre-fill the DatePicker
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        // Create and show the DatePickerDialog
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 TaskDetailActivity.this,
                 (view, selectedYear, selectedMonth, selectedDayOfMonth) -> {
-                    // Update EditText with selected date
-                    String formattedDate = selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                    // Format selected date to yyyy-MM-dd
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(selectedYear, selectedMonth, selectedDayOfMonth);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    String formattedDate = sdf.format(selectedDate.getTime());
+
                     editTextDueDate.setText(formattedDate);
                 },
                 year, month, dayOfMonth
@@ -120,4 +125,6 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         datePickerDialog.show();
     }
+
+
 }
