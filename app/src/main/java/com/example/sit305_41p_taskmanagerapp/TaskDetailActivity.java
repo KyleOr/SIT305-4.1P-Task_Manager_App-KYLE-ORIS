@@ -49,7 +49,6 @@ public class TaskDetailActivity extends AppCompatActivity {
                 editTextDescription.setText(currentTask.description);
                 editTextDueDate.setText(currentTask.dueDate);
 
-                // Handle back button (FAB)
                 findViewById(R.id.buttonBack).setOnClickListener(v -> finish());
             }
         }
@@ -60,17 +59,15 @@ public class TaskDetailActivity extends AppCompatActivity {
         buttonEditTask.setOnClickListener(v -> {
             if (!isEditing) {
                 enableEditing(true);
-                buttonEditTask.setText(R.string.save_task); // Change button text to "Save"
+                buttonEditTask.setText(R.string.save_task);
                 isEditing = true;
             } else {
                 saveChanges();
                 enableEditing(false);
-                buttonEditTask.setText(R.string.edit_task); // Change button text back to "Edit"
+                buttonEditTask.setText(R.string.edit_task);
                 isEditing = false;
             }
         });
-
-        // Use the local variable here instead of a field
         Button buttonDeleteTask = findViewById(R.id.buttonDeleteTask);
         buttonDeleteTask.setOnClickListener(v -> deleteTask());
     }
@@ -112,7 +109,7 @@ public class TaskDetailActivity extends AppCompatActivity {
             if (currentTask != null) {
                 TaskDatabase.getInstance(this).taskDao().delete(currentTask);
                 Toast.makeText(this, R.string.task_deleted, Toast.LENGTH_SHORT).show();
-                finish(); // Close the activity after deletion
+                finish();
             }
         }
     }
@@ -126,7 +123,6 @@ public class TaskDetailActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 TaskDetailActivity.this,
                 (view, selectedYear, selectedMonth, selectedDayOfMonth) -> {
-                    // Format selected date to yyyy-MM-dd
                     Calendar selectedDate = Calendar.getInstance();
                     selectedDate.set(selectedYear, selectedMonth, selectedDayOfMonth);
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());

@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         // Sort button setup
         buttonSortByMode = findViewById(R.id.buttonSortByDate);
         buttonSortByMode.setOnClickListener(v -> {
-            cycleSortMode(); // Cycle sort mode
-            sortTasks();     // Apply sort
+            cycleSortMode();
+            sortTasks();
         });
 
         loadTasks();
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadTasks(); // Refresh list
+        loadTasks();
     }
 
     private void loadTasks() {
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             taskAdapter.setTasks(taskList);
         }
 
-        sortTasks(); // Apply current sort mode
+        sortTasks();
     }
 
     private void cycleSortMode() {
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        updateSortButtonText(); // Update button text when sort mode changes
+        updateSortButtonText();
     }
 
     private void updateSortButtonText() {
